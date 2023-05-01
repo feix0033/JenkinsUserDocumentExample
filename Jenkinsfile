@@ -9,6 +9,8 @@ pipeline {
                     ls -lah
                 '''
             }
+        }
+        stage('retry and timeout') {
             steps {
                 retry(3) {
                     sh './flakey-deploy.sh'
