@@ -39,7 +39,7 @@ pipeline {
     //     }
     // }
 
-    //4. 完成时动作(post)
+    /* 4. 完成时动作(post) */ 
     // agent any
     // stages {
     //     stage('Test') {
@@ -67,7 +67,7 @@ pipeline {
     //     }
     // }
 
-    // 5. 定义执行环境
+    /* 5. 定义执行环境 */
     // https://www.jenkins.io/doc/book/pipeline/syntax#agent
     // agent {
     //     docker { image 'node:7-alpine' }
@@ -81,7 +81,7 @@ pipeline {
     // }
 
 
-    // 6. 使用环境变量
+    /* 6. 使用环境变量 */
     // agent any
 
     // environment {
@@ -97,7 +97,7 @@ pipeline {
     //     }
     // }
 
-    // 7. 输出测试结果
+    /* 7. 输出测试结果 */
 //    agent any
 //     stages {
 //         stage('Build') {
@@ -121,31 +121,56 @@ pipeline {
 //             junit 'build/reports/**/*.xml'
 //         }
 //     }
-    // 8. 清理和通知
+
+    /* 8. 清理和通知 */
+    // agent any
+    // stages {
+    //     stage('No-op') {
+    //         steps {
+    //             sh 'ls'
+    //         }
+    //     }
+    // }
+    // post {
+    //     always {
+    //         echo 'One way or another, I have finished'
+    //         deleteDir() /* clean up our workspace */
+    //     }
+    //     success {
+    //         echo 'I succeeeded!'
+    //     }
+    //     unstable {
+    //         echo 'I am unstable :/'
+    //     }
+    //     failure {
+    //         echo 'I failed :('
+    //         /* 发送 email 通知测试失败 */
+    //         mail to: 'team@example.com',
+    //          subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+    //          body: "Something is wrong with ${env.BUILD_URL}"
+    //     }
+    //     changed {
+    //         echo 'Things were different before...'
+    //     }
+    // }
+
+    /* 9. 部署阶段 */
     agent any
     stages {
-        stage('No-op') {
+        stage('Build') {
             steps {
-                sh 'ls'
+                echo 'Building'
             }
         }
-    }
-    post {
-        always {
-            echo 'One way or another, I have finished'
-            deleteDir() /* clean up our workspace */
+        stage('Test') {
+            steps {
+                echo 'Testing'
+            }
         }
-        success {
-            echo 'I succeeeded!'
-        }
-        unstable {
-            echo 'I am unstable :/'
-        }
-        failure {
-            echo 'I failed :('
-        }
-        changed {
-            echo 'Things were different before...'
+        stage('Deploy') {
+            steps {
+                echo 'Deploying'
+            }
         }
     }
 }
