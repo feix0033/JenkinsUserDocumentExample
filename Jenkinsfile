@@ -92,23 +92,60 @@ pipeline {
     // stages {
     //     stage('Build') {
     //         steps {
-    //             sh 'printenv'
+    //             sh 'printenv' /*输出环境数据 */
     //         }
     //     }
     // }
 
     // 7. 输出测试结果
+//    agent any
+//     stages {
+//         stage('Build') {
+//             steps {
+//                 sh 'dotnet build'
+//             }
+//         }
+//         stage('Test') {
+//             steps {
+//                 sh 'dotnet test'
+//             }
+//         }
+//     }
+
+//     post {
+//         always {
+            /* 这里通过 archive artifacts 步骤和文件匹配表达式输出记录文件 */
+//             archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+//      参数:  文件名                           路径                    许可
+            /*  这里通过 junit 路径 输出 junit 测试记录 */
+//             junit 'build/reports/**/*.xml'
+//         }
+//     }
+    // 8. 清理和通知
     agent any
     stages {
-        stage('Test') {
+        stage('No-op') {
             steps {
-                sh './gradlew check'
+                sh 'ls'
             }
         }
     }
     post {
         always {
-            junit 'build/reports/**/*.xml'
+            echo 'One way or another, I have finished'
+            deleteDir() /* clean up our workspace */
+        }
+        success {
+            echo 'I succeeeded!'
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
         }
     }
 }
