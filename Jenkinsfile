@@ -82,18 +82,33 @@ pipeline {
 
 
     // 6. 使用环境变量
+    // agent any
+
+    // environment {
+    //     DISABLE_AUTH = 'true'
+    //     DB_ENGINE    = 'sqlite'
+    // }
+
+    // stages {
+    //     stage('Build') {
+    //         steps {
+    //             sh 'printenv'
+    //         }
+    //     }
+    // }
+
+    // 7. 输出测试结果
     agent any
-
-    environment {
-        DISABLE_AUTH = 'true'
-        DB_ENGINE    = 'sqlite'
-    }
-
     stages {
-        stage('Build') {
+        stage('Test') {
             steps {
-                sh 'printenv'
+                sh './gradlew check'
             }
+        }
+    }
+    post {
+        always {
+            junit 'build/reports/**/*.xml'
         }
     }
 }
