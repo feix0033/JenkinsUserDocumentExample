@@ -155,22 +155,28 @@ pipeline {
     // }
 
     /* 9. 部署阶段 */
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying'
-            }
-        }
-    }
+    // agent any
+    // stages {
+    //     stage('Build') {
+    //         steps {
+    //             echo 'Building'
+    //         }
+    //     }
+    //     stage('Test') {
+    //         steps {
+    //             echo 'Testing'
+    //         }
+    //     }
+    //     stage('Deploy') {
+    //         steps {
+    //             echo 'Deploying'
+    //         }
+    //     }
+    //     /* 这一步是添加人工确认来执行部署 */
+    //     stage('Sanity check') {
+    //         steps {
+    //             input "Does the staging environment look ok?"
+    //         }
+    //     }
+    // }
 }
