@@ -1,15 +1,25 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:7-alpine' }
+    }
     stages {
-        stage('build') {
+        stage('Test') {
             steps {
-                sh 'echo "Hello World"'
-                sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
-                '''
+                sh 'node --version'
             }
         }
+    }
+    // agent any
+    // stages {
+        // stage('build') {
+        //     steps {
+        //         sh 'echo "Hello World"'
+        //         sh '''
+        //             echo "Multiline shell steps works too"
+        //             ls -lah
+        //         '''
+        //     }
+        // }
         // stage('retry and timeout') {
         //     steps {
         //         retry(3) {
@@ -25,7 +35,7 @@ pipeline {
         //         sh 'echo "Fail!!; exit 1'
         //     }
         // }
-    }
+    // }
     post {
         always {
             echo 'This will always run'
