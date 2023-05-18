@@ -1,13 +1,13 @@
 pipeline {
     // 1. 创建第一个 pipeline
-    // agent { docker 'node:6.3' }
-    // stages {
-    //     stage('build') {
-    //         steps {
-    //             sh 'npm --version'
-    //         }
-    //     }
-    // }
+    agent { docker 'node:6.3' }
+    stages {
+        stage('build') {
+            steps {
+                sh 'npm --version'
+            }
+        }
+    }
 
     // 2. 执行多个步骤(steps)
     // agent any
